@@ -62,19 +62,39 @@ header h1 {
     min-width: 300px;
 }
 
+.header-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-export,
 .btn-refresh {
     background: white;
     color: #00a651;
     border: 2px solid white;
-    padding: 10px 20px;
+    padding: 10px 16px;
     border-radius: 6px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-excel:hover {
+    background: #217346;
+    color: white;
+    border-color: #217346;
+}
+
+.btn-pdf:hover {
+    background: #d32f2f;
+    color: white;
+    border-color: #d32f2f;
 }
 
 .btn-refresh:hover {
@@ -82,10 +102,7 @@ header h1 {
     border-color: rgba(255, 255, 255, 0.9);
 }
 
-.btn-refresh:active {
-    transform: translateY(0);
-}
-
+.btn-export svg,
 .btn-refresh svg {
     transition: transform 0.3s ease;
 }
@@ -337,6 +354,17 @@ footer {
 
     .logo {
         max-height: 50px;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .btn-export,
+    .btn-refresh {
+        font-size: 0.85rem;
+        padding: 8px 12px;
     }
 
     .module-header h2 {

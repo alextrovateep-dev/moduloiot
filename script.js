@@ -183,6 +183,266 @@ function showNotification(message) {
     }, 3000);
 }
 
+// Exportar para Excel
+function exportToExcel() {
+    const wb = XLSX.utils.book_new();
+    
+    // Obter dados dos módulos
+    const productionW = parseInt(document.getElementById('production-w').value) || 1;
+    const productionE = parseInt(document.getElementById('production-e').value) || 1;
+    
+    // Criar planilha para TMP-1044-W
+    const dataW = [
+        ['TMP-1044-W - Módulo IoT TEEP WiFi com 4 Entradas Digitais e 4 Saídas Digitais NA/NF'],
+        [`Quantidade a Produzir: ${productionW} unidades`],
+        [],
+        ['Código', 'Descrição', 'Qtde. Unit.', 'Qtde. Total', 'Preço Unit. (R$)', 'Preço Total (R$)']
+    ];
+    
+    const tableW = document.getElementById('table-w');
+    const rowsW = tableW.querySelectorAll('tbody tr');
+    let totalW = 0;
+    
+    rowsW.forEach(row => {
+        const code = row.querySelector('td:nth-child(1)').textContent;
+        const desc = row.querySelector('td:nth-child(2)').textContent;
+        const qtyUnit = row.querySelector('.qty-unit').textContent;
+        const qtyTotal = row.querySelector('.qty-total').textContent;
+        const price = parseFloat(row.querySelector('.input-price').value);
+        const baseQty = parseInt(row.getAttribute('data-base-qty'));
+        const total = baseQty * productionW * price;
+        totalW += total;
+        
+        dataW.push([code, desc, qtyUnit, qtyTotal, price, total]);
+    });
+    
+    dataW.push([]);
+    dataW.push(['', '', '', '', 'TOTAL:', totalW]);
+    
+    // Criar planilha para TMP-1044-E
+    const dataE = [
+        ['TMP-1044-E - Módulo IoT TEEP Ethernet com 4 Entradas Digitais e 4 Saídas Digitais NA/NF'],
+        [`Quantidade a Produzir: ${productionE} unidades`],
+        [],
+        ['Código', 'Descrição', 'Qtde. Unit.', 'Qtde. Total', 'Preço Unit. (R$)', 'Preço Total (R$)']
+    ];
+    
+    const tableE = document.getElementById('table-e');
+    const rowsE = tableE.querySelectorAll('tbody tr');
+    let totalE = 0;
+    
+    rowsE.forEach(row => {
+        const code = row.querySelector('td:nth-child(1)').textContent;
+        const desc = row.querySelector('td:nth-child(2)').textContent;
+        const qtyUnit = row.querySelector('.qty-unit').textContent;
+        const qtyTotal = row.querySelector('.qty-total').textContent;
+        const price = parseFloat(row.querySelector('.input-price').value);
+        const baseQty = parseInt(row.getAttribute('data-base-qty'));
+        const total = baseQty * productionE * price;
+        totalE += total;
+        
+        dataE.push([code, desc, qtyUnit, qtyTotal, price, total]);
+    });
+    
+    dataE.push([]);
+    dataE.push(['', '', '', '', 'TOTAL:', totalE]);
+    
+    // Adicionar planilhas ao workbook
+    const wsW = XLSX.utils.aoa_to_sheet(dataW);
+    const wsE = XLSX.utils.aoa_to_sheet(dataE);
+    
+    // Configurar largura das colunas
+    wsW['!cols'] = [
+        { wch: 15 },
+        { wch: 60 },
+        { wch: 12 },
+        { wch: 12 },
+        { wch: 18 },
+        { wch: 18 }
+    ];
+    
+    wsE['!cols'] = [
+        { wch: 15 },
+        { wch: 60 },
+        { wch: 12 },
+        { wch: 12 },
+        { wch: 18 },
+        { wch: 18 }
+    ];
+    
+    XLSX.utils.book_append_sheet(wb, wsW, 'TMP-1044-W');
+    XLSX.utils.book_append_sheet(wb, wsE, 'TMP-1044-E');
+    
+    // Gerar arquivo
+    const today = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, `TEEP_Analise_Custos_${today}.xlsx`);
+    
+    showNotification('Planilha Excel exportada com sucesso!');
+}
+
+// Exportar para PDF
+function exportToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Obter dados dos módulos
+    const productionW = parseInt(document.getElementById('production-w').value) || 1;
+    const productionE = parseInt(document.getElementById('production-e').value) || 1;
+    
+    // Configurar fonte
+    doc.setFont('helvetica');
+    
+    // Cabeçalho
+    doc.setFontSize(16);
+    doc.setTextColor(0, 166, 81);
+    doc.text('TEEP - Análise de Custos de Módulos IoT', 105, 15, { align: 'center' });
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    const today = new Date().toLocaleDateString('pt-BR');
+    doc.text(`Data: ${today}`, 105, 22, { align: 'center' });
+    
+    let yPos = 35;
+    
+    // TMP-1044-W
+    doc.setFontSize(12);
+    doc.setTextColor(0, 166, 81);
+    doc.text('TMP-1044-W', 14, yPos);
+    
+    doc.setFontSize(9);
+    doc.setTextColor(80);
+    doc.text('Módulo IoT TEEP WiFi com 4 Entradas Digitais e 4 Saídas Digitais NA/NF', 14, yPos + 5);
+    doc.text(`Quantidade a Produzir: ${productionW} unidades`, 14, yPos + 10);
+    
+    // Tabela W
+    const tableW = document.getElementById('table-w');
+    const rowsW = tableW.querySelectorAll('tbody tr');
+    const bodyW = [];
+    let totalW = 0;
+    
+    rowsW.forEach(row => {
+        const code = row.querySelector('td:nth-child(1)').textContent;
+        const desc = row.querySelector('td:nth-child(2)').textContent;
+        const qtyUnit = row.querySelector('.qty-unit').textContent;
+        const qtyTotal = row.querySelector('.qty-total').textContent;
+        const price = parseFloat(row.querySelector('.input-price').value);
+        const baseQty = parseInt(row.getAttribute('data-base-qty'));
+        const total = baseQty * productionW * price;
+        totalW += total;
+        
+        bodyW.push([
+            code,
+            desc,
+            qtyUnit,
+            qtyTotal,
+            formatCurrency(price),
+            formatCurrency(total)
+        ]);
+    });
+    
+    doc.autoTable({
+        startY: yPos + 15,
+        head: [['Código', 'Descrição', 'Qtde. Unit.', 'Qtde. Total', 'Preço Unit.', 'Preço Total']],
+        body: bodyW,
+        foot: [['', '', '', '', 'TOTAL:', formatCurrency(totalW)]],
+        theme: 'striped',
+        headStyles: { fillColor: [0, 166, 81], textColor: 255, fontSize: 8 },
+        footStyles: { fillColor: [240, 249, 244], textColor: [0, 166, 81], fontStyle: 'bold', fontSize: 9 },
+        styles: { fontSize: 7, cellPadding: 2 },
+        columnStyles: {
+            0: { cellWidth: 20 },
+            1: { cellWidth: 70 },
+            2: { cellWidth: 18 },
+            3: { cellWidth: 18 },
+            4: { cellWidth: 25 },
+            5: { cellWidth: 25 }
+        }
+    });
+    
+    yPos = doc.lastAutoTable.finalY + 15;
+    
+    // Verificar se precisa de nova página
+    if (yPos > 200) {
+        doc.addPage();
+        yPos = 20;
+    }
+    
+    // TMP-1044-E
+    doc.setFontSize(12);
+    doc.setTextColor(0, 166, 81);
+    doc.text('TMP-1044-E', 14, yPos);
+    
+    doc.setFontSize(9);
+    doc.setTextColor(80);
+    doc.text('Módulo IoT TEEP Ethernet com 4 Entradas Digitais e 4 Saídas Digitais NA/NF', 14, yPos + 5);
+    doc.text(`Quantidade a Produzir: ${productionE} unidades`, 14, yPos + 10);
+    
+    // Tabela E
+    const tableE = document.getElementById('table-e');
+    const rowsE = tableE.querySelectorAll('tbody tr');
+    const bodyE = [];
+    let totalE = 0;
+    
+    rowsE.forEach(row => {
+        const code = row.querySelector('td:nth-child(1)').textContent;
+        const desc = row.querySelector('td:nth-child(2)').textContent;
+        const qtyUnit = row.querySelector('.qty-unit').textContent;
+        const qtyTotal = row.querySelector('.qty-total').textContent;
+        const price = parseFloat(row.querySelector('.input-price').value);
+        const baseQty = parseInt(row.getAttribute('data-base-qty'));
+        const total = baseQty * productionE * price;
+        totalE += total;
+        
+        bodyE.push([
+            code,
+            desc,
+            qtyUnit,
+            qtyTotal,
+            formatCurrency(price),
+            formatCurrency(total)
+        ]);
+    });
+    
+    doc.autoTable({
+        startY: yPos + 15,
+        head: [['Código', 'Descrição', 'Qtde. Unit.', 'Qtde. Total', 'Preço Unit.', 'Preço Total']],
+        body: bodyE,
+        foot: [['', '', '', '', 'TOTAL:', formatCurrency(totalE)]],
+        theme: 'striped',
+        headStyles: { fillColor: [0, 166, 81], textColor: 255, fontSize: 8 },
+        footStyles: { fillColor: [240, 249, 244], textColor: [0, 166, 81], fontStyle: 'bold', fontSize: 9 },
+        styles: { fontSize: 7, cellPadding: 2 },
+        columnStyles: {
+            0: { cellWidth: 20 },
+            1: { cellWidth: 70 },
+            2: { cellWidth: 18 },
+            3: { cellWidth: 18 },
+            4: { cellWidth: 25 },
+            5: { cellWidth: 25 }
+        }
+    });
+    
+    // Rodapé
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text(
+            `© 2025 TEEP - Tecnologia e Engenharia em Eletrônica de Potência - Página ${i} de ${pageCount}`,
+            105,
+            290,
+            { align: 'center' }
+        );
+    }
+    
+    // Salvar PDF
+    const todayStr = new Date().toISOString().split('T')[0];
+    doc.save(`TEEP_Analise_Custos_${todayStr}.pdf`);
+    
+    showNotification('PDF exportado com sucesso!');
+}
+
 // Inicializar aplicação
 document.addEventListener('DOMContentLoaded', () => {
     // Inicializar ambos os módulos
@@ -195,6 +455,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Adicionar listener ao botão de refresh
     document.getElementById('refreshBtn').addEventListener('click', restoreBaseData);
+    
+    // Adicionar listeners aos botões de exportação
+    document.getElementById('exportExcelBtn').addEventListener('click', exportToExcel);
+    document.getElementById('exportPdfBtn').addEventListener('click', exportToPDF);
     
     // Mostrar notificação de boas-vindas
     setTimeout(() => {
