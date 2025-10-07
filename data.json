@@ -1,0 +1,109 @@
+{
+  "TMP-1144-W": [
+    {
+      "code": "MP-1144",
+      "desc": "Placa Hoffer PLC com 4 entradas digitais e 4 saídas por relé NA/NF",
+      "qty": 1,
+      "price": 260.00
+    },
+    {
+      "code": "TFM-1003",
+      "desc": "Fonte 12V – 3A tipo colmeia com aterramento",
+      "qty": 1,
+      "price": 41.90
+    },
+    {
+      "code": "MP-GB-4-4",
+      "desc": "Gabinete para módulo com 4 entradas e 4 saídas",
+      "qty": 1,
+      "price": 30.00
+    },
+    {
+      "code": "MP-AD-4-4",
+      "desc": "Adesivo para módulo 4 entradas e 4 saídas",
+      "qty": 1,
+      "price": 3.50
+    },
+    {
+      "code": "TP-PH-3Mx8MM",
+      "desc": "Parafuso de fixação",
+      "qty": 8,
+      "price": 0.10
+    },
+    {
+      "code": "MP-CX-24X20X15",
+      "desc": "Caixa de papelão para embalagem dos módulos Teep IoT",
+      "qty": 1,
+      "price": 4.50
+    },
+    {
+      "code": "FRETE",
+      "desc": "Frete baseado na quantidade de 50 unidades",
+      "qty": 1,
+      "price": 2.00
+    },
+    {
+      "code": "MÃO DE OBRA",
+      "desc": "Baseado no valor hora pessoa e o tempo em produzir uma peça",
+      "qty": 1,
+      "price": 5.00
+    }
+  ],
+  "TMP-1144-E": [
+    {
+      "code": "MP-1144",
+      "desc": "Placa Hoffer PLC com 4 entradas digitais e 4 saídas por relé NA/NF",
+      "qty": 1,
+      "price": 260.00
+    },
+    {
+      "code": "TFM-1003",
+      "desc": "Fonte 12V – 3A tipo colmeia com aterramento",
+      "qty": 1,
+      "price": 41.90
+    },
+    {
+      "code": "MP-GB-4-4",
+      "desc": "Gabinete para módulo com 4 entradas e 4 saídas",
+      "qty": 1,
+      "price": 30.00
+    },
+    {
+      "code": "MP-AD-4-4",
+      "desc": "Adesivo para módulo 4 entradas e 4 saídas",
+      "qty": 1,
+      "price": 3.50
+    },
+    {
+      "code": "TP-PH-3Mx8MM",
+      "desc": "Parafuso de fixação",
+      "qty": 8,
+      "price": 0.10
+    },
+    {
+      "code": "MP-REDE-ESP32",
+      "desc": "Módulo de rede para Esp32 no módulo MP-1144",
+      "qty": 1,
+      "price": 60.00
+    },
+    {
+      "code": "MP-CX-24X20X15",
+      "desc": "Caixa de papelão para embalagem dos módulos Teep IoT",
+      "qty": 1,
+      "price": 4.50
+    },
+    {
+      "code": "FRETE",
+      "desc": "Frete baseado na quantidade de 50 unidades",
+      "qty": 1,
+      "price": 2.00
+    },
+    {
+      "code": "MÃO DE OBRA",
+      "desc": "Baseado no valor hora pessoa e o tempo em produzir uma peça",
+      "qty": 1,
+      "price": 5.00
+    }
+  ]
+}
+

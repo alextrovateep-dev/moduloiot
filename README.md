@@ -2,6 +2,12 @@
 
 Sistema web para análise e gestão de custos dos módulos IoT TEEP, integrado com planilha do Google Sheets.
 
+## 🌐 Demo Online
+
+Acesse o sistema online: **[https://SEU-USUARIO.github.io/teep-custos-modulos/](https://SEU-USUARIO.github.io/teep-custos-modulos/)**
+
+*(Substitua `SEU-USUARIO` pelo seu usuário do GitHub)*
+
 ## 🚀 Funcionalidades
 
 - ✅ **Visualização de Custos**: Interface clara e organizada para análise de custos dos módulos TMP-1044-W e TMP-1044-E

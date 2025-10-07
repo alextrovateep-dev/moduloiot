@@ -267,9 +267,11 @@ async function restoreBaseData() {
         document.getElementById('production-w').value = 1;
         document.getElementById('production-e').value = 1;
         
-        // Atualizar tabelas com dados da planilha
-        updateTableFromData('w', baseData['TMP-1044-W']);
-        updateTableFromData('e', baseData['TMP-1044-E']);
+        // Atualizar tabelas com dados
+        if (baseData['TMP-1144-W'] && baseData['TMP-1144-E']) {
+            updateTableFromData('w', baseData['TMP-1144-W']);
+            updateTableFromData('e', baseData['TMP-1144-E']);
+        }
         
         // Recalcular ambos os módulos
         updateModule('w');
@@ -282,8 +284,10 @@ async function restoreBaseData() {
         showNotification('Erro ao conectar com o banco de dados. Usando dados locais.');
         
         // Usar dados locais em caso de erro
-        updateTableFromData('w', baseData['TMP-1044-W']);
-        updateTableFromData('e', baseData['TMP-1044-E']);
+        if (baseData['TMP-1144-W'] && baseData['TMP-1144-E']) {
+            updateTableFromData('w', baseData['TMP-1144-W']);
+            updateTableFromData('e', baseData['TMP-1144-E']);
+        }
         updateModule('w');
         updateModule('e');
     } finally {
@@ -565,13 +569,15 @@ function exportToPDF() {
 // Inicializar aplicação
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        // Carregar dados da planilha ao iniciar
+        // Carregar dados do banco de dados ao iniciar
         showNotification('Carregando dados do banco de dados...');
         await loadDataFromGoogleSheets();
         
-        // Atualizar tabelas com dados da planilha
-        updateTableFromData('w', baseData['TMP-1044-W']);
-        updateTableFromData('e', baseData['TMP-1044-E']);
+        // Atualizar tabelas com dados
+        if (baseData['TMP-1144-W'] && baseData['TMP-1144-E']) {
+            updateTableFromData('w', baseData['TMP-1144-W']);
+            updateTableFromData('e', baseData['TMP-1144-E']);
+        }
         
         // Inicializar ambos os módulos
         updateModule('w');
@@ -579,15 +585,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         showNotification('Dados carregados com sucesso!');
     } catch (error) {
-        console.error('Erro ao carregar planilha:', error);
+        console.error('Erro ao carregar dados:', error);
         
         // Usar dados locais em caso de erro
-        updateTableFromData('w', baseData['TMP-1044-W']);
-        updateTableFromData('e', baseData['TMP-1044-E']);
+        if (baseData['TMP-1144-W'] && baseData['TMP-1144-E']) {
+            updateTableFromData('w', baseData['TMP-1144-W']);
+            updateTableFromData('e', baseData['TMP-1144-E']);
+        }
         updateModule('w');
         updateModule('e');
         
-        showNotification('Carregado com dados locais (offline)');
+        showNotification('Sistema carregado com dados locais');
     }
     
     // Adicionar listeners
