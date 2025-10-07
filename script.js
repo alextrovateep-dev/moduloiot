@@ -26,22 +26,13 @@ let baseData = {
 // Carregar dados do arquivo JSON local ou da planilha Google Sheets
 async function loadDataFromGoogleSheets() {
     try {
-        // Tentar carregar do arquivo JSON local primeiro
-        try {
-            const response = await fetch('./data.json');
-            if (response.ok) {
-                const jsonData = await response.json();
-                baseData = jsonData;
-                console.log('Dados carregados do arquivo local data.json');
-                return baseData;
-            }
-        } catch (localError) {
-            console.log('Arquivo local não encontrado, tentando Google Sheets...');
-        }
-        
-        // Se falhar, tentar carregar do Google Sheets
+        // Tentar carregar do Google Sheets primeiro
+        console.log('🔄 Tentando carregar do Google Sheets...');
+        console.log('📍 URL:', SHEET_CONFIG.publicUrl);
         const response = await fetch(SHEET_CONFIG.publicUrl);
+        console.log('📡 Resposta recebida:', response.status, response.statusText);
         const csvText = await response.text();
+        console.log('📄 CSV recebido (primeiras 200 chars):', csvText.substring(0, 200));
         
         return new Promise((resolve, reject) => {
             Papa.parse(csvText, {
@@ -92,21 +83,37 @@ async function loadDataFromGoogleSheets() {
                             'TMP-1144-E': dataE
                         };
                         
-                        console.log('Dados carregados do Google Sheets');
+                        console.log('✅ Dados carregados do Google Sheets com sucesso!');
+                        console.log('📊 TMP-1144-W:', dataW.length, 'itens');
+                        console.log('📊 TMP-1144-E:', dataE.length, 'itens');
                         resolve(baseData);
                     } catch (error) {
-                        console.error('Erro ao processar dados da planilha:', error);
+                        console.error('❌ Erro ao processar dados da planilha:', error);
                         reject(error);
                     }
                 },
                 error: (error) => {
-                    console.error('Erro ao fazer parse do CSV:', error);
+                    console.error('❌ Erro ao fazer parse do CSV:', error);
                     reject(error);
                 }
             });
         });
     } catch (error) {
-        console.error('Erro ao carregar planilha:', error);
+        console.error('⚠️ Google Sheets não acessível, tentando arquivo local...');
+        
+        // Fallback: tentar carregar do arquivo JSON local
+        try {
+            const localResponse = await fetch('./data.json');
+            if (localResponse.ok) {
+                const jsonData = await localResponse.json();
+                baseData = jsonData;
+                console.log('✅ Dados carregados do arquivo local data.json');
+                return baseData;
+            }
+        } catch (localError) {
+            console.log('⚠️ Arquivo local também não encontrado');
+        }
+        
         throw error;
     }
 }
@@ -471,15 +478,16 @@ function exportToPDF() {
         theme: 'striped',
         headStyles: { fillColor: [0, 166, 81], textColor: 255, fontSize: 8 },
         footStyles: { fillColor: [240, 249, 244], textColor: [0, 166, 81], fontStyle: 'bold', fontSize: 9 },
-        styles: { fontSize: 7, cellPadding: 2 },
+        styles: { fontSize: 7, cellPadding: 2, overflow: 'linebreak' },
         columnStyles: {
-            0: { cellWidth: 20 },
-            1: { cellWidth: 70 },
-            2: { cellWidth: 18 },
-            3: { cellWidth: 18 },
-            4: { cellWidth: 25 },
-            5: { cellWidth: 25 }
-        }
+            0: { cellWidth: 22 },
+            1: { cellWidth: 75 },
+            2: { cellWidth: 16 },
+            3: { cellWidth: 16 },
+            4: { cellWidth: 22 },
+            5: { cellWidth: 22 }
+        },
+        margin: { left: 10, right: 10 }
     });
     
     yPos = doc.lastAutoTable.finalY + 15;
@@ -534,15 +542,16 @@ function exportToPDF() {
         theme: 'striped',
         headStyles: { fillColor: [0, 166, 81], textColor: 255, fontSize: 8 },
         footStyles: { fillColor: [240, 249, 244], textColor: [0, 166, 81], fontStyle: 'bold', fontSize: 9 },
-        styles: { fontSize: 7, cellPadding: 2 },
+        styles: { fontSize: 7, cellPadding: 2, overflow: 'linebreak' },
         columnStyles: {
-            0: { cellWidth: 20 },
-            1: { cellWidth: 70 },
-            2: { cellWidth: 18 },
-            3: { cellWidth: 18 },
-            4: { cellWidth: 25 },
-            5: { cellWidth: 25 }
-        }
+            0: { cellWidth: 22 },
+            1: { cellWidth: 75 },
+            2: { cellWidth: 16 },
+            3: { cellWidth: 16 },
+            4: { cellWidth: 22 },
+            5: { cellWidth: 22 }
+        },
+        margin: { left: 10, right: 10 }
     });
     
     // Rodapé
@@ -568,15 +577,23 @@ function exportToPDF() {
 
 // Inicializar aplicação
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('🚀 Iniciando sistema TEEP...');
+    
     try {
         // Carregar dados do banco de dados ao iniciar
         showNotification('Carregando dados do banco de dados...');
         await loadDataFromGoogleSheets();
         
+        console.log('📋 Dados recebidos:', baseData);
+        
         // Atualizar tabelas com dados
         if (baseData['TMP-1144-W'] && baseData['TMP-1144-E']) {
+            console.log('🔄 Atualizando tabelas com dados carregados...');
             updateTableFromData('w', baseData['TMP-1144-W']);
             updateTableFromData('e', baseData['TMP-1144-E']);
+        } else {
+            console.warn('⚠️ Dados não encontrados nas chaves esperadas');
+            console.log('Chaves disponíveis:', Object.keys(baseData));
         }
         
         // Inicializar ambos os módulos
@@ -585,7 +602,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         showNotification('Dados carregados com sucesso!');
     } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.error('❌ Erro ao carregar dados:', error);
+        console.log('🔄 Tentando usar dados embutidos no código...');
         
         // Usar dados locais em caso de erro
         if (baseData['TMP-1144-W'] && baseData['TMP-1144-E']) {
@@ -595,7 +613,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateModule('w');
         updateModule('e');
         
-        showNotification('Sistema carregado com dados locais');
+        showNotification('Sistema carregado com dados locais (offline)');
     }
     
     // Adicionar listeners
