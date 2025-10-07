@@ -1,0 +1,380 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #00a651;
+    --primary-dark: #008542;
+    --secondary-color: #7ec845;
+    --success-color: #00a651;
+    --accent-color: #4caf50;
+    --background: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-primary: #2c3e50;
+    --text-secondary: #6c757d;
+    --border-color: #dee2e6;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    background: #00a651;
+    color: white;
+    padding: 25px 40px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.logo {
+    max-height: 50px;
+    background: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+}
+
+header h1 {
+    flex: 1;
+    font-size: 1.6rem;
+    font-weight: 500;
+    text-align: center;
+    min-width: 300px;
+}
+
+.btn-refresh {
+    background: white;
+    color: #00a651;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-refresh:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.9);
+}
+
+.btn-refresh:active {
+    transform: translateY(0);
+}
+
+.btn-refresh svg {
+    transition: transform 0.3s ease;
+}
+
+.btn-refresh:hover svg {
+    transform: rotate(90deg);
+}
+
+/* Modules Container */
+.modules-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+/* Module Card */
+.module-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.module-header {
+    background: #00a651;
+    color: white;
+    padding: 18px 25px;
+    border-bottom: 3px solid #008542;
+}
+
+.module-header h2 {
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.module-description {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* Table */
+.table-wrapper {
+    overflow-x: auto;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+thead {
+    background: var(--background);
+}
+
+thead th {
+    padding: 12px 8px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+    white-space: nowrap;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--border-color);
+}
+
+tbody tr:hover {
+    background: #fafbfa;
+}
+
+tbody td {
+    padding: 12px 8px;
+    vertical-align: middle;
+}
+
+tbody td:first-child {
+    font-weight: 600;
+    color: #00a651;
+}
+
+tbody td:nth-child(2) {
+    color: var(--text-secondary);
+}
+
+/* Input Fields */
+.input-price {
+    width: 100%;
+    max-width: 90px;
+    padding: 7px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.input-price:focus {
+    outline: none;
+    border-color: #00a651;
+    box-shadow: 0 0 0 2px rgba(0, 166, 81, 0.1);
+}
+
+.qty-unit {
+    text-align: center;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: #fafbfa;
+}
+
+.qty-total {
+    text-align: center;
+    font-weight: 600;
+    color: #00a651;
+    font-size: 1rem;
+}
+
+.total-cell {
+    font-weight: 600;
+    color: #00a651;
+    text-align: right;
+}
+
+/* Table Footer */
+tfoot {
+    background: var(--background);
+}
+
+.total-row td {
+    padding: 16px 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.module-total {
+    color: #00a651;
+    font-size: 1.2rem;
+    text-align: right;
+    font-weight: 700;
+}
+
+/* Production Simulator */
+.production-simulator {
+    background: #f0f9f4;
+    padding: 20px 25px;
+    margin: 0;
+    border-bottom: 2px solid #e0f0e8;
+}
+
+.simulator-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    color: #00a651;
+}
+
+.simulator-header svg {
+    flex-shrink: 0;
+}
+
+.simulator-header label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.simulator-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.production-input {
+    width: 120px;
+    padding: 10px 14px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    border: 2px solid #00a651;
+    border-radius: 6px;
+    background: white;
+    color: #00a651;
+    transition: all 0.2s ease;
+}
+
+.production-input:focus {
+    outline: none;
+    border-color: #008542;
+    box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.1);
+}
+
+.unit-label {
+    color: #00a651;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #00a651;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    font-weight: 600;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .modules-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    .logo {
+        max-height: 50px;
+    }
+
+    .module-header h2 {
+        font-size: 1.2rem;
+    }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    thead th,
+    tbody td {
+        padding: 8px 4px;
+    }
+
+    .input-qty,
+    .input-price {
+        max-width: 60px;
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Loading Animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.btn-refresh.loading svg {
+    animation: spin 1s linear infinite;
+}
+

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEEP - Análise de Custos de Módulos IoT</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://teep.com.br/wp-content/uploads/2023/11/cropped-cropped-teep-logo-menor-300x87.png" alt="TEEP Logo" class="logo">
+            <h1>Sistema de Análise de Custos - Módulos IoT</h1>
+            <button id="refreshBtn" class="btn-refresh">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 4v6h-6M1 20v-6h6"/>
+                    <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+                </svg>
+                Atualizar com Base de Dados
+            </button>
+        </header>
+
+        <div class="modules-container">
+            <!-- Módulo TMP-1044-W -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h2>TMP-1044-W</h2>
+                    <p class="module-description">Módulo IoT TEEP WiFi com 4 Entradas Digitais e 4 Saídas Digitais NA/NF</p>
+                </div>
+                
+                <div class="production-simulator">
+                    <div class="simulator-header">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        <label for="production-w">Simular Quantidade a Produzir:</label>
+                    </div>
+                    <div class="simulator-controls">
+                        <input type="number" id="production-w" class="production-input" value="1" min="1" max="10000">
+                        <span class="unit-label">unidades</span>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="table-w">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descrição</th>
+                                <th>Qtde. Unit.</th>
+                                <th>Qtde. Total</th>
+                                <th>Preço Unit. (R$)</th>
+                                <th>Preço Total (R$)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-code="MP-1044-W" data-base-qty="1">
+                                <td>MP-1044-W</td>
+                                <td>Placa Hoffer PLC com 4 entradas digitais e 4 saídas por relé NA/NF</td>
+                                <td class="qty-unit">1</td>
+                                <td class="qty-total">1</td>
+                                <td><input type="number" class="input-price" value="260.00" min="0" step="0.01"></td>
+                                <td class="total-cell">R$ 260,00</td>
+                            </tr>
+                            <tr data-code="TFM-1003" data-base-qty="1">
+                                <td>TFM-1003</td>
+                                <td>Fonte 12V – 3A tipo colmeia com aterramento</td>
+                                <td class="qty-unit">1</td>
+                                <td class="qty-total">1</td>
+                                <td><input type="number" class="input-price" value="41.90" min="0" step="0.01"></td>
+                                <td class="total-cell">R$ 41,90</td>
+                            </tr>
+                            <tr data-code="MP-GB-4-4" data-base-qty="1">
+                                <td>MP-GB-4-4</td>
+                                <td>Gabinete para módulo com 4 entradas e 4 saídas</td>
+                                <td class="qty-unit">1</td>
+                                <td class="qty-total">1</td>
+                                <td><input type="number" class="input-price" value="30.00" min="0" step="0.01"></td>
+                                <td class="total-cell">R$ 30,00</td>
+                            </tr>
+                            <tr data-code="MP-AD-4-4" data-base-qty="1">
+                                <td>MP-AD-4-4</td>
+                                <td>Matéria-prima – adesivo para módulo 4 entradas e 4 saídas</td>
+                                <td class="qty-unit">1</td>
+                                <td class="qty-total">1</td>
+                                <td><input type="number" class="input-price" value="3.50" min="0" step="0.01"></td>
+                                <td class="total-cell">R$ 3,50</td>
+                            </tr>
+                            <tr data-code="TP-PH-3Mx8MM" data-base-qty="8">
+                                <td>TP-PH-3Mx8MM</td>
+                                <td>Parafuso de fixação</td>
+                                <td class="qty-unit">8</td>
+                                <td class="qty-total">8</td>
+                                <td><input type="number" class="input-price" value="0.10" min="0" step="0.01"></td>
+                                <td class="total-cell">R$ 0,80</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="5">TOTAL</td>
+                                <td class="module-total" id="total-w">R$ 336,20</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Módulo TMP-1044-E -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h2>TMP-1044-E</h2>
+                    <p class="module-description">Módulo IoT TEEP Ethernet com 4 Entradas Digitais e 4 Saídas Digitais NA/NF</p>
+                </div>
+                
+                <div class="production-simulator">
+                    <div class="simulator-header">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        <label for="production-e">Simular Quantidade a Produzir:</label>
+                    </div>
+                    <div class="simulator-controls">
+                        <input type="number" id="production-e" class="production-input" value="1" min="1" max="10000">
+                        <span class="unit-label">unidades</span>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="table-e">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descrição</th>
+                                <th>Qtde. Unit.</th>
+                                <th>Qtde. Total</th>
+                                <th>Preço Unit. (R$)</th>
+                                <th>Preço Total (R$)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-code="MP-1044-E" data-base-qty="1">
+                                <td>MP-1044-E</td>
+                                <td>Placa Hoffer PLC com 4 entradas digitais e 4 saídas por relé NA/NF</td>
+                                <td class="qty-unit">1</td>
+                                <td class="qty-total">1</td>
+                                <td><input type="number" class="input-price" value="260.00" min="0" step="0.01"></td>
+                                <td class="total-cell">R$ 260,00</td>
+                            </tr>
+                            <tr data-code="TFM-1003" data-base-qty="1">
+                                <td>TFM-1003</td>
+                                <td>Fonte 12V – 3A tipo colmeia com aterramento</td>
+                                <td class="qty-unit">1</td>
+                                <td class="qty-total">1</td>
+                                <td><input type="number" class="input-price" value="41.90" min="0" step="0.01"></td>
+                                <td class="total-cell">R$ 41,90</td>
+                            </tr>
+                            <tr data-code="MP-GB-4-4" data-base-qty="1">
+                                <td>MP-GB-4-4</td>
+                                <td>Gabinete para módulo com 4 entradas e 4 saídas</td>
+                                <td class="qty-unit">1</td>
+                                <td class="qty-total">1</td>
+                                <td><input type="number" class="input-price" value="30.00" min="0" step="0.01"></td>
+                                <td class="total-cell">R$ 30,00</td>
+                            </tr>
+                            <tr data-code="MP-AD-4-4" data-base-qty="1">
+                                <td>MP-AD-4-4</td>
+                                <td>Matéria-prima – adesivo para módulo 4 entradas e 4 saídas</td>
+                                <td class="qty-unit">1</td>
+                                <td class="qty-total">1</td>
+                                <td><input type="number" class="input-price" value="3.50" min="0" step="0.01"></td>
+                                <td class="total-cell">R$ 3,50</td>
+                            </tr>
+                            <tr data-code="TP-PH-3Mx8MM" data-base-qty="8">
+                                <td>TP-PH-3Mx8MM</td>
+                                <td>Parafuso de fixação</td>
+                                <td class="qty-unit">8</td>
+                                <td class="qty-total">8</td>
+                                <td><input type="number" class="input-price" value="0.10" min="0" step="0.01"></td>
+                                <td class="total-cell">R$ 0,80</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="5">TOTAL</td>
+                                <td class="module-total" id="total-e">R$ 336,20</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 TEEP - Tecnologia e Engenharia em Eletrônica de Potência</p>
+        </footer>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
